@@ -239,4 +239,4 @@ CALL EJ_SP5;
 
 ---
 
-[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PROCEMIENTOS.sql)
+[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PROCEDIMIENTOS.sql)
