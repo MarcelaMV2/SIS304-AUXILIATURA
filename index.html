@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base de Datos II — Repositorio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f6f2;
+    --gray-100: #eeece6;
+    --gray-200: #d8d5cc;
+    --gray-400: #9a9790;
+    --gray-600: #5a5750;
+    --accent: #d62b2b;
+    --border: 1.5px solid var(--black);
+    --border-light: 1px solid var(--gray-200);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 52px;
+    background: var(--white);
+    border-bottom: var(--border);
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gray-600);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gray-600); text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .nav-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; padding: 4px 12px;
+    border: var(--border); color: var(--black); letter-spacing: .08em;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 110px 52px 72px;
+    display: grid; grid-template-columns: 1fr 380px;
+    gap: 56px; align-items: center;
+    border-bottom: var(--border);
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; bottom: -60px; left: -8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 260px);
+    color: var(--gray-100);
+    letter-spacing: .02em; line-height: 1;
+    pointer-events: none; user-select: none; white-space: nowrap;
+  }
+  .hero-left { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gray-400); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--gray-200); }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: .88; letter-spacing: .02em;
+    color: var(--black); margin-bottom: 10px;
+  }
+  .hero-title .acc { color: var(--accent); }
+  .hero-title .out { -webkit-text-stroke: 2px var(--black); color: transparent; }
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--gray-400);
+    letter-spacing: .08em; margin-bottom: 36px;
+  }
+  .hero-desc {
+    font-size: 15px; color: var(--gray-600);
+    max-width: 460px; line-height: 1.75; margin-bottom: 48px;
+  }
+  .hero-stats { display: flex; border: var(--border); }
+  .stat-box {
+    padding: 18px 28px; border-right: var(--border); flex: 1; text-align: center;
+  }
+  .stat-box:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px; line-height: 1; color: var(--black); letter-spacing: .02em;
+  }
+  .stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gray-400); margin-top: 4px;
+  }
+
+  /* PROFILE CARD */
+  .hero-right { position: relative; z-index: 2; }
+  .profile-card { background: var(--white); border: var(--border); position: relative; }
+  .profile-card::after {
+    content: ''; position: absolute; bottom: -7px; right: -7px;
+    width: 100%; height: 100%; border: var(--border); z-index: -1;
+  }
+  .profile-header {
+    padding: 24px 28px 20px; border-bottom: var(--border);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .profile-avatar {
+    width: 46px; height: 46px; border: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+    color: var(--black); flex-shrink: 0; letter-spacing: .04em;
+  }
+  .profile-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 5px;
+  }
+  .profile-name { font-size: 15px; font-weight: 600; color: var(--black); line-height: 1.2; }
+  .profile-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 28px; border-bottom: var(--border-light);
+  }
+  .profile-row:last-of-type { border-bottom: none; }
+  .profile-row i { font-size: 15px; color: var(--gray-400); width: 18px; flex-shrink: 0; }
+  .p-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gray-400); display: block; margin-bottom: 2px;
+  }
+  .p-value { font-size: 13px; font-weight: 500; color: var(--black); }
+  .profile-footer {
+    padding: 14px 28px; background: var(--gray-100); border-top: var(--border);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .profile-footer i { font-size: 14px; color: var(--gray-600); flex-shrink: 0; margin-top: 2px; }
+  .profile-footer p { font-size: 12px; color: var(--gray-600); line-height: 1.55; }
+
+  /* GENERIC SECTION WRAP */
+  .section-wrap {
+    display: grid; grid-template-columns: 240px 1fr;
+    gap: 64px; padding: 80px 52px; border-bottom: var(--border);
+  }
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gray-400); display: flex; align-items: flex-start; gap: 8px; padding-top: 4px;
+  }
+  .sec-label i { font-size: 13px; }
+
+  /* HOW TO */
+  .how-item {
+    display: grid; grid-template-columns: 64px 1fr;
+    gap: 18px; padding: 26px 0; border-bottom: var(--border-light); align-items: start;
+  }
+  .how-item:first-child { padding-top: 0; }
+  .how-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .how-n { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--gray-200); line-height: 1; }
+  .how-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .how-item p { font-size: 13px; color: var(--gray-600); line-height: 1.65; }
+
+  /* TOPICS */
+  .topics-section { padding: 80px 52px; border-bottom: var(--border); }
+  .topics-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-bottom: 20px; border-bottom: var(--border);
+  }
+  .topics-head h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; letter-spacing: .02em; line-height: 1;
+  }
+  .topics-head span {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-400);
+  }
+  .topic-row {
+    display: grid; grid-template-columns: 60px 1fr 110px 28px;
+    gap: 24px; align-items: center;
+    padding: 22px 0; border-bottom: var(--border-light);
+    text-decoration: none; color: inherit; transition: padding-left .2s;
+  }
+  .topic-row:hover { padding-left: 10px; }
+  .topic-row:hover .t-title { color: var(--accent); }
+  .topic-row:hover .t-arrow { transform: translateX(5px); color: var(--accent); }
+  .t-idx { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--gray-200); letter-spacing: .02em; }
+  .t-title { font-size: 17px; font-weight: 500; margin-bottom: 3px; transition: color .2s; }
+  .t-sub { font-size: 11px; color: var(--gray-400); font-family: 'JetBrains Mono', monospace; letter-spacing: .04em; }
+  .t-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 10px; border: var(--border-light); color: var(--gray-400); text-align: center;
+  }
+  .t-tag.ok { border-color: var(--accent); color: var(--accent); background: #fdf2f2; }
+  .t-arrow { font-size: 18px; color: var(--gray-200); transition: transform .2s, color .2s; }
+
+  /* ═══════════════════════════════════
+     BASE DE DATOS DEL CURSO
+     ═══════════════════════════════════ */
+  .db-section { padding: 80px 52px; border-bottom: var(--border); }
+
+  .db-section-head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-bottom: 20px; border-bottom: var(--border); margin-bottom: 32px;
+  }
+  .db-section-head h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: .02em; line-height: 1;
+  }
+  .db-section-head span {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-400);
+  }
+
+  .db-body {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: var(--border);
+  }
+
+  /* Info col */
+  .db-info { border-right: var(--border); display: flex; flex-direction: column; }
+  .db-info-header {
+    padding: 22px 28px; border-bottom: var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .db-info-header i { font-size: 20px; color: var(--accent); }
+  .db-info-title { font-size: 16px; font-weight: 600; color: var(--black); }
+  .db-info-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--gray-400); letter-spacing: .08em; margin-top: 2px; }
+
+  .db-meta-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 28px; border-bottom: var(--border-light);
+  }
+  .db-meta-row:last-child { border-bottom: none; }
+  .db-meta-row i { font-size: 15px; color: var(--gray-400); width: 20px; flex-shrink: 0; }
+  .db-meta-lbl {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gray-400); display: block; margin-bottom: 3px;
+  }
+  .db-meta-val { font-size: 13px; font-weight: 500; color: var(--black); }
+  .db-meta-val code {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    background: var(--gray-100); padding: 2px 7px; border: var(--border-light); color: var(--accent);
+  }
+
+  /* Chips de tablas */
+  .db-tables-wrap { padding: 16px 28px 20px; border-top: var(--border); }
+  .db-tables-lbl {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gray-400); margin-bottom: 10px;
+  }
+  .db-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .db-chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .06em;
+    padding: 5px 12px; border: var(--border-light); color: var(--gray-600); background: var(--white);
+    display: flex; align-items: center; gap: 6px; transition: border-color .2s, color .2s;
+  }
+  .db-chip:hover { border-color: var(--black); color: var(--black); }
+  .db-chip i { font-size: 11px; }
+
+  /* Botón descarga BD */
+  .db-download-wrap { padding: 20px 28px; border-top: var(--border); margin-top: auto; }
+  .db-download-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 14px 20px;
+    background: var(--black); color: var(--white);
+    border: var(--border); text-decoration: none;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    transition: background .2s, color .2s;
+    cursor: pointer;
+  }
+  .db-download-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .db-download-btn-left { display: flex; align-items: center; gap: 10px; }
+  .db-download-btn i { font-size: 16px; }
+  .db-download-btn-right {
+    font-size: 9px; color: var(--gray-400); letter-spacing: .08em;
+    background: rgba(255,255,255,.1); padding: 3px 8px; border: 1px solid rgba(255,255,255,.15);
+  }
+  .db-download-btn:hover .db-download-btn-right { color: rgba(255,255,255,.7); }
+
+  /* MLGD col */
+  .db-mlgd { display: flex; flex-direction: column; }
+  .db-mlgd-header {
+    padding: 22px 28px; border-bottom: var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .db-mlgd-title { display: flex; align-items: center; gap: 10px; }
+  .db-mlgd-title i { font-size: 18px; color: var(--gray-400); }
+  .db-mlgd-name { font-size: 14px; font-weight: 600; }
+  .db-mlgd-sub { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--gray-400); letter-spacing: .08em; margin-top: 2px; }
+  .db-mlgd-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border: var(--border-light); color: var(--accent); border-color: var(--accent);
+    background: #fdf2f2;
+  }
+
+  /* Imagen MLGD — siempre visible, sin lightbox */
+  .db-mlgd-img-wrap {
+    flex: 1; padding: 28px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--white);
+  }
+  .db-mlgd-img-wrap img {
+    width: 100%; max-width: 520px;
+    border: var(--border); display: block;
+  }
+
+  /* TOOLS */
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; border: var(--border); }
+  .tool-cell { padding: 26px 28px; border-right: var(--border); border-bottom: var(--border); }
+  .tool-cell:nth-child(even) { border-right: none; }
+  .tool-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .tool-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .tool-ico { width: 30px; height: 30px; border: var(--border-light); display: flex; align-items: center; justify-content: center; }
+  .tool-ico i { font-size: 15px; }
+  .tool-name { font-size: 14px; font-weight: 600; }
+  .tool-desc { font-size: 12px; color: var(--gray-600); line-height: 1.6; }
+  .tool-lnk {
+    display: inline-flex; align-items: center; gap: 4px; margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); text-decoration: none;
+  }
+  .tool-lnk i { font-size: 11px; }
+
+  /* NOTES */
+  .note-item { display: flex; gap: 14px; align-items: flex-start; padding: 18px 0; border-bottom: var(--border-light); }
+  .note-item:first-child { padding-top: 0; }
+  .note-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .note-ico { width: 30px; height: 30px; border: var(--border-light); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .note-ico i { font-size: 14px; color: var(--gray-600); }
+  .note-item p { font-size: 13px; color: var(--gray-600); line-height: 1.65; padding-top: 5px; }
+  .note-item strong { color: var(--black); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    padding: 24px 52px; display: flex; justify-content: space-between; align-items: center; border-top: var(--border);
+  }
+  .f-left { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-400); }
+  .f-left span { color: var(--accent); }
+  .back-top {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--gray-600); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    border: var(--border-light); padding: 8px 16px;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .back-top:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+  .back-top i { font-size: 14px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.vis { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 860px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 96px 20px 52px; }
+    .hero-bg { font-size: 100px; }
+    .hero-right { order: -1; }
+    .section-wrap { grid-template-columns: 1fr; gap: 28px; padding: 52px 20px; }
+    .topics-section, .db-section { padding: 52px 20px; }
+    .topic-row { grid-template-columns: 44px 1fr 28px; }
+    .t-tag { display: none; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .tool-cell { border-right: none !important; }
+    footer { padding: 20px; flex-direction: column; gap: 14px; }
+    .db-body { grid-template-columns: 1fr; }
+    .db-info { border-right: none; border-bottom: var(--border); }
+  }
+</style>
+</head>
+<body id="top">
+
+<nav>
+  <div class="nav-logo"><span class="nav-dot"></span> Base de Datos II · SIS304</div>
+  <div class="nav-links">
+    <a href="#contenido">Contenido</a>
+    <a href="#base-de-datos">Base de Datos</a>
+    <a href="#herramientas">Herramientas</a>
+    <a href="#notas">Notas</a>
+    <span class="nav-tag">Gestión I · 2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">BD II</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Repositorio oficial · Gestión I — 2026</div>
+    <h1 class="hero-title">
+      BASE<br>
+      <span class="out">DE</span><br>
+      DATOS <span class="acc">II</span>
+    </h1>
+    <p class="hero-sub">// Procedimientos · Parámetros · Funciones</p>
+    <p class="hero-desc">
+      Bienvenida/o al repositorio oficial de la materia. Aquí encontrarás todos los ejercicios,
+      procedimientos almacenados y funciones desarrollados en clase, organizados para que puedas
+      repasar cuando quieras.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="stat-num">05</div>
+        <div class="stat-lbl">Temas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">01</div>
+        <div class="stat-lbl">Gestión</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">2026</div>
+        <div class="stat-lbl">Año</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right reveal">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">MM</div>
+        <div>
+          <div class="profile-badge">Auxiliar de la materia</div>
+          <div class="profile-name">Marcela Miranda Veniz</div>
+        </div>
+      </div>
+      <div class="profile-row">
+        <i class="ti ti-mail"></i>
+        <div><span class="p-label">Correo</span><span class="p-value">mirandamarcela578@gmail.com</span></div>
+      </div>
+      <div class="profile-row">
+        <i class="ti ti-phone"></i>
+        <div><span class="p-label">Celular</span><span class="p-value">67399831</span></div>
+      </div>
+      <div class="profile-row">
+        <i class="ti ti-book"></i>
+        <div><span class="p-label">Materia</span><span class="p-value">Base de Datos II</span></div>
+      </div>
+      <div class="profile-row">
+        <i class="ti ti-calendar"></i>
+        <div><span class="p-label">Gestión</span><span class="p-value">I · 2026</span></div>
+      </div>
+      <div class="profile-footer">
+        <i class="ti ti-message-circle"></i>
+        <p>Ante cualquier duda, escríbeme por el grupo de WhatsApp o inbox. Con gusto te ayudo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO USAR -->
+<section class="section-wrap reveal">
+  <div class="sec-label"><i class="ti ti-help-circle"></i> ¿Cómo usar este repositorio?</div>
+  <div>
+    <div class="how-item">
+      <div class="how-n">01</div>
+      <div><h3>Explora el índice</h3><p>Cada tema tiene su propia página con teoría y ejercicios resueltos, organizados por clase.</p></div>
+    </div>
+    <div class="how-item">
+      <div class="how-n">02</div>
+      <div><h3>Cada tema incluye</h3><p>Explicación del concepto, sintaxis SQL, ejemplos comentados y ejercicios con solución completa.</p></div>
+    </div>
+    <div class="how-item">
+      <div class="how-n">03</div>
+      <div><h3>Volver al inicio</h3><p>Al final de cada página hay un enlace para regresar aquí y seguir navegando por los demás temas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO -->
+<section class="topics-section reveal" id="contenido">
+  <div class="topics-head">
+    <h2>Contenido</h2>
+    <span>5 temas · habilitados</span>
+  </div>
+
+  <a class="topic-row reveal" href="temas/procedimientos.md">
+    <span class="t-idx">01</span>
+    <div>
+      <div class="t-title">Procedimientos almacenados</div>
+      <div class="t-sub">// CREATE PROCEDURE · sin parámetros · variables locales</div>
+    </div>
+    <span class="t-tag ok">Listo</span>
+    <i class="ti ti-arrow-right t-arrow"></i>
+  </a>
+
+  <a class="topic-row reveal" href="temas/pa_parametros_entrada.md">
+    <span class="t-idx">02</span>
+    <div>
+      <div class="t-title">Parámetros de entrada</div>
+      <div class="t-sub">// IN param → input al procedimiento</div>
+    </div>
+    <span class="t-tag ok">Listo</span>
+    <i class="ti ti-arrow-right t-arrow"></i>
+  </a>
+
+  <a class="topic-row reveal" href="temas/pa_parametros_salida.md">
+    <span class="t-idx">03</span>
+    <div>
+      <div class="t-title">Parámetros de salida</div>
+      <div class="t-sub">// OUT param → retorna valores al exterior</div>
+    </div>
+    <span class="t-tag ok">Listo</span>
+    <i class="ti ti-arrow-right t-arrow"></i>
+  </a>
+
+  <a class="topic-row reveal" href="temas/funciones.md">
+    <span class="t-idx">04</span>
+    <div>
+      <div class="t-title">Funciones</div>
+      <div class="t-sub">// CREATE FUNCTION · RETURNS · escalares</div>
+    </div>
+    <span class="t-tag ok">Listo</span>
+    <i class="ti ti-arrow-right t-arrow"></i>
+  </a>
+
+  <a class="topic-row reveal" href="temas/BD.sql">
+    <span class="t-idx">05</span>
+    <div>
+      <div class="t-title">Scripts SQL completos</div>
+      <div class="t-sub">// Todos los archivos .sql del curso</div>
+    </div>
+    <span class="t-tag ok">Listo</span>
+    <i class="ti ti-arrow-right t-arrow"></i>
+  </a>
+</section>
+
+<!-- BASE DE DATOS DEL CURSO -->
+<section class="db-section reveal" id="base-de-datos">
+  <div class="db-section-head">
+    <h2>Base de Datos del Curso</h2>
+    <span>MySQL · utf8 · 7 tablas</span>
+  </div>
+
+  <div class="db-body">
+
+    <!-- COLUMNA IZQUIERDA: info + descarga -->
+    <div class="db-info">
+      <div class="db-info-header">
+        <i class="ti ti-database"></i>
+        <div>
+          <div class="db-info-title">REPUESTOS</div>
+          <div class="db-info-sub">// base de datos de práctica · gestión I 2026</div>
+        </div>
+      </div>
+
+      <div class="db-meta-row">
+        <i class="ti ti-server"></i>
+        <div><span class="db-meta-lbl">Motor</span><span class="db-meta-val">MySQL 8 · InnoDB</span></div>
+      </div>
+      <div class="db-meta-row">
+        <i class="ti ti-terminal-2"></i>
+        <div><span class="db-meta-lbl">Entorno</span><span class="db-meta-val">MySQL Workbench</span></div>
+      </div>
+      <div class="db-meta-row">
+        <i class="ti ti-language"></i>
+        <div><span class="db-meta-lbl">Charset</span><span class="db-meta-val"><code>utf8</code> · <code>utf8_general_ci</code></span></div>
+      </div>
+      <div class="db-meta-row">
+        <i class="ti ti-code"></i>
+        <div><span class="db-meta-lbl">Comando de uso</span><span class="db-meta-val"><code>USE REPUESTOS;</code></span></div>
+      </div>
+      <div class="db-meta-row">
+        <i class="ti ti-table"></i>
+        <div><span class="db-meta-lbl">Tablas</span><span class="db-meta-val">7 tablas relacionadas</span></div>
+      </div>
+      <div class="db-meta-row">
+        <i class="ti ti-key"></i>
+        <div><span class="db-meta-lbl">Relaciones</span><span class="db-meta-val">Foreign Keys · INNER JOIN</span></div>
+      </div>
+
+      <div class="db-tables-wrap">
+        <div class="db-tables-lbl">Tablas de la base de datos</div>
+        <div class="db-chips">
+          <span class="db-chip"><i class="ti ti-table"></i> REPUESTO</span>
+          <span class="db-chip"><i class="ti ti-bolt"></i> ELECTRICO</span>
+          <span class="db-chip"><i class="ti ti-settings"></i> MECANICO</span>
+          <span class="db-chip"><i class="ti ti-truck"></i> PROVEEDOR</span>
+          <span class="db-chip"><i class="ti ti-shopping-cart"></i> COMPRA</span>
+          <span class="db-chip"><i class="ti ti-package"></i> ENTREGA</span>
+          <span class="db-chip"><i class="ti ti-user"></i> ENCARGADO</span>
+        </div>
+      </div>
+
+      <!-- BOTÓN DE DESCARGA -->
+      <div class="db-download-wrap">
+        <a class="db-download-btn" href="temas/BD.sql" download="BD_REPUESTOS.sql">
+          <span class="db-download-btn-left">
+            <i class="ti ti-file-type-sql"></i>
+            Ver y descargar la base de datos
+          </span>
+          <span class="db-download-btn-right">BD.sql</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: MLGD siempre visible -->
+    <div class="db-mlgd">
+      <div class="db-mlgd-header">
+        <div class="db-mlgd-title">
+          <i class="ti ti-hierarchy"></i>
+          <div>
+            <div class="db-mlgd-name">Modelo Lógico de Datos</div>
+            <div class="db-mlgd-sub">// MLGD · REPUESTOS</div>
+          </div>
+        </div>
+        <span class="db-mlgd-badge">MLGD</span>
+      </div>
+
+      <div class="db-mlgd-img-wrap">
+        <img src="MLGD_Repuestos.jpeg" alt="Modelo Lógico de Datos — REPUESTOS">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HERRAMIENTAS -->
+<section class="section-wrap reveal" id="herramientas">
+  <div class="sec-label"><i class="ti ti-tool"></i> Herramientas que usamos</div>
+  <div class="tools-grid">
+    <div class="tool-cell">
+      <div class="tool-head"><div class="tool-ico"><i class="ti ti-database"></i></div><span class="tool-name">MySQL</span></div>
+      <p class="tool-desc">Motor de base de datos principal. Ejecuta todos los procedimientos, funciones y consultas de la materia.</p>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-head"><div class="tool-ico"><i class="ti ti-layout-dashboard"></i></div><span class="tool-name">MySQL Workbench</span></div>
+      <p class="tool-desc">Entorno visual para escribir, ejecutar y depurar consultas, procedimientos y funciones sobre MySQL.</p>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-head"><div class="tool-ico"><i class="ti ti-brand-github"></i></div><span class="tool-name">GitHub</span></div>
+      <p class="tool-desc">Repositorio del curso donde se publican todos los ejercicios y materiales de cada clase.</p>
+      <a class="tool-lnk" href="#">Estás aquí <i class="ti ti-external-link"></i></a>
+    </div>
+    <div class="tool-cell">
+      <div class="tool-head"><div class="tool-ico"><i class="ti ti-world"></i></div><span class="tool-name">GitHub Pages</span></div>
+      <p class="tool-desc">Publica este repositorio como página web accesible para todos, sin instalar nada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NOTAS -->
+<section class="section-wrap reveal" id="notas">
+  <div class="sec-label"><i class="ti ti-info-circle"></i> Notas importantes</div>
+  <div>
+    <div class="note-item">
+      <div class="note-ico"><i class="ti ti-folder-open"></i></div>
+      <p><strong>Todos los temas están habilitados.</strong> Puedes navegar libremente entre ellos desde el índice de contenido.</p>
+    </div>
+    <div class="note-item">
+      <div class="note-ico"><i class="ti ti-terminal-2"></i></div>
+      <p><strong>Los ejercicios están en MySQL.</strong> Asegúrate de tener MySQL Workbench instalado y la base de datos <code style="font-family:monospace;font-size:12px;background:var(--gray-100);padding:1px 5px;">REPUESTOS</code> creada antes de ejecutar cualquier script.</p>
+    </div>
+    <div class="note-item">
+      <div class="note-ico"><i class="ti ti-download"></i></div>
+      <p><strong>Descarga el script de la BD</strong> desde la sección "Base de Datos del Curso" y ejecútalo en Workbench para tener todo listo.</p>
+    </div>
+    <div class="note-item">
+      <div class="note-ico"><i class="ti ti-brand-whatsapp"></i></div>
+      <p><strong>Ante cualquier duda</strong>, escribe al grupo de WhatsApp o al inbox de la auxiliar. Respondo con gusto.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-left">Base de Datos II · <span>SIS304</span> · Gestión I — 2026</div>
+  <a class="back-top" href="#top"><i class="ti ti-arrow-up"></i> Volver al inicio</a>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('vis'), i * 65);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
