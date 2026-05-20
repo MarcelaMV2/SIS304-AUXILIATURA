@@ -194,22 +194,34 @@
     font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-400);
   }
   .topic-row {
-    display: grid; grid-template-columns: 60px 1fr 110px 28px;
+    display: grid; grid-template-columns: 60px 1fr auto auto;
     gap: 24px; align-items: center;
     padding: 22px 0; border-bottom: var(--border-light);
-    text-decoration: none; color: inherit; transition: padding-left .2s;
+    transition: padding-left .2s;
   }
-  .topic-row:hover { padding-left: 10px; }
-  .topic-row:hover .t-title { color: var(--accent); }
-  .topic-row:hover .t-arrow { transform: translateX(5px); color: var(--accent); }
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row.open:hover { padding-left: 10px; }
+  .topic-row.open:hover .t-title { color: var(--accent); }
   .t-idx { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--gray-200); letter-spacing: .02em; }
   .t-title { font-size: 17px; font-weight: 500; margin-bottom: 3px; transition: color .2s; }
   .t-sub { font-size: 11px; color: var(--gray-400); font-family: 'JetBrains Mono', monospace; letter-spacing: .04em; }
-  .t-tag {
+  .t-tag,
+  .topic-status {
     font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
     padding: 5px 10px; border: var(--border-light); color: var(--gray-400); text-align: center;
   }
-  .t-tag.ok { border-color: var(--accent); color: var(--accent); background: #fdf2f2; }
+  .t-tag.ok,
+  .topic-status.ok { border-color: var(--accent); color: var(--accent); background: #fdf2f2; }
+  .topic-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 8px 16px;
+    border: var(--border); background: var(--black); color: var(--white);
+    text-decoration: none; white-space: nowrap;
+    transition: background .2s, color .2s;
+  }
+  .topic-btn:hover { background: var(--accent); border-color: var(--accent); }
+  .topic-btn i { font-size: 13px; }
   .t-arrow { font-size: 18px; color: var(--gray-200); transition: transform .2s, color .2s; }
 
   /* ═══════════════════════════════════
@@ -488,55 +500,55 @@
     <span>5 temas · habilitados</span>
   </div>
 
-  <a class="topic-row reveal" href="temas/procedimientos.md">
+  <div class="topic-row open reveal">
     <span class="t-idx">01</span>
     <div>
       <div class="t-title">Procedimientos almacenados</div>
       <div class="t-sub">// CREATE PROCEDURE · sin parámetros · variables locales</div>
     </div>
-    <span class="t-tag ok">Listo</span>
-    <i class="ti ti-arrow-right t-arrow"></i>
-  </a>
+    <span class="topic-status ok">Listo</span>
+    <a class="topic-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/procedimientos.md" target="_blank">Ver tema <i class="ti ti-arrow-right"></i></a>
+  </div>
 
-  <a class="topic-row reveal" href="temas/pa_parametros_entrada.md">
+  <div class="topic-row open reveal">
     <span class="t-idx">02</span>
     <div>
       <div class="t-title">Parámetros de entrada</div>
       <div class="t-sub">// IN param → input al procedimiento</div>
     </div>
-    <span class="t-tag ok">Listo</span>
-    <i class="ti ti-arrow-right t-arrow"></i>
-  </a>
+    <span class="topic-status ok">Listo</span>
+    <a class="topic-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/PA_parametros_entrada.md" target="_blank">Ver tema <i class="ti ti-arrow-right"></i></a>
+  </div>
 
-  <a class="topic-row reveal" href="temas/pa_parametros_salida.md">
+  <div class="topic-row open reveal">
     <span class="t-idx">03</span>
     <div>
       <div class="t-title">Parámetros de salida</div>
       <div class="t-sub">// OUT param → retorna valores al exterior</div>
     </div>
-    <span class="t-tag ok">Listo</span>
-    <i class="ti ti-arrow-right t-arrow"></i>
-  </a>
+    <span class="topic-status ok">Listo</span>
+    <a class="topic-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/PA_parametros_salida.md" target="_blank">Ver tema <i class="ti ti-arrow-right"></i></a>
+  </div>
 
-  <a class="topic-row reveal" href="temas/funciones.md">
+  <div class="topic-row open reveal">
     <span class="t-idx">04</span>
     <div>
       <div class="t-title">Funciones</div>
       <div class="t-sub">// CREATE FUNCTION · RETURNS · escalares</div>
     </div>
-    <span class="t-tag ok">Listo</span>
-    <i class="ti ti-arrow-right t-arrow"></i>
-  </a>
+    <span class="topic-status ok">Listo</span>
+    <a class="topic-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/Funciones.md" target="_blank">Ver tema <i class="ti ti-arrow-right"></i></a>
+  </div>
 
-  <a class="topic-row reveal" href="temas/BD.sql">
+  <div class="topic-row open reveal">
     <span class="t-idx">05</span>
     <div>
       <div class="t-title">Scripts SQL completos</div>
       <div class="t-sub">// Todos los archivos .sql del curso</div>
     </div>
-    <span class="t-tag ok">Listo</span>
-    <i class="ti ti-arrow-right t-arrow"></i>
-  </a>
+    <span class="topic-status ok">Listo</span>
+    <a class="topic-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/BD.sql" target="_blank">Ver tema <i class="ti ti-arrow-right"></i></a>
+  </div>
 </section>
 
 <!-- BASE DE DATOS DEL CURSO -->
@@ -598,7 +610,7 @@
 
       <!-- BOTÓN DE DESCARGA -->
       <div class="db-download-wrap">
-        <a class="db-download-btn" href="temas/BD.sql" download="BD_REPUESTOS.sql">
+        <a class="db-download-btn" href="https://github.com/MarcelaMV2/SIS304-AUXILIATURA/blob/main/temas/BD.sql" target="_blank">
           <span class="db-download-btn-left">
             <i class="ti ti-file-type-sql"></i>
             Ver y descargar la base de datos

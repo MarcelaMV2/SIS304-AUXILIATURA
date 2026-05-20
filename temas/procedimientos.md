@@ -239,4 +239,4 @@ CALL EJ_SP5;
 
 ---
 
-[⬅️ Volver al inicio](./README.md) &nbsp;|&nbsp; [🗃️ Ver código SQL](./repuestos_sp_sin_parametros.sql)
+[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PROCEMIENTOS.sql)

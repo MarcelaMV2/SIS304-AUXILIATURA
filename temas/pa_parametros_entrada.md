@@ -341,4 +341,4 @@ CALL EJ8('2019-05-05', '2025-09-30', 16);
 
 ---
 
-[⬅️ Volver al inicio](./README.md) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PARAMETROSENTRADA.sql)
+[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PARAMETROSENTRADA.sql)

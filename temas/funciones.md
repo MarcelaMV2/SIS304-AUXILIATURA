@@ -337,4 +337,4 @@ SELECT @PROMC AS 'PROMEDIO REPUESTO';
 
 ---
 
-[⬅️ Volver al inicio](./README.md) &nbsp;|&nbsp; [🗃️ Ver código SQL](./repuestos_funciones.sql)
+[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./repuestos_funciones.sql)

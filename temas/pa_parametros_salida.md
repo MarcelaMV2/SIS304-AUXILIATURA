@@ -363,4 +363,4 @@ SELECT @PPR AS 'PORCENTAJE REPUESTO DEL PROVEEDOR';
 
 ---
 
-[⬅️ Volver al inicio](./README.md) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PARAMETROSSALIDA.sql)
+[⬅️ Volver al inicio](https://marcelamv2.github.io/SIS304-AUXILIATURA/) &nbsp;|&nbsp; [🗃️ Ver código SQL](./PARAMETROSSALIDA.sql)
